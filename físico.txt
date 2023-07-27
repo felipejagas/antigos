@@ -1,0 +1,59 @@
+CREATE TABLE tb_cidades(
+  cod_cidade INTEGER PRIMARY KEY,
+  nome_cidade VARCHAR(50) NOT NULL,
+  estado_cidade CHAR(2) NOT NULL
+);
+CREATE TABLE tb_clientes(
+  cod_cliente INTEGER PRIMARY KEY,
+  tipo_cliente CHAR(1) NOT NULL DEFAULT 'C',
+  ativo CHAR(1) NOT NULL DEFAULT 'S',
+  nome_cliente VARCHAR(250) NOT NULL,
+  fone_cliente BIGINT NOT NULL,
+  senha VARCHAR(50) NOT NULL,
+  cpf_cnpj BIGINT NOT NULL,
+  email_cliente VARCHAR(100) NOT NULL,
+  idtb_cidade INTEGER NOT NULL,
+  CONSTRAINT idtb_cidade FOREIGN KEY(idtb_cidade) REFERENCES tb_cidades(cod_cidade),
+  CONSTRAINT ck_ativo CHECK (ativo = 'S' OR ativo = 'N'),
+  CONSTRAINT ck_tipo_cliente CHECK (tipo_cliente ='C' OR tipo_cliente = 'A')
+);
+CREATE TABLE tb_espacos(
+  cod_espaco INTEGER PRIMARY KEY,
+  ativo CHAR(1) NOT NULL DEFAULT 'S',
+  descricao VARCHAR(50) NOT NULL,
+  tipo VARCHAR(50) NOT NULL,
+  CONSTRAINT ck_ativo CHECK (ativo = 'S' OR ativo = 'N')
+);
+CREATE TABLE tb_horarios(
+  cod_horario INTEGER PRIMARY KEY,
+  entrada_tarde INT NOT NULL,
+  entrada_noite INT NOT NULL,
+  saida_tarde INT NOT NULL,
+  saida_noite INT NOT NULL,
+  dia_semana INT NOT NULL,
+  idtb_espaco INTEGER NOT NULL
+  
+);
+CREATE TABLE tb_agendas(
+  cod_agenda INTEGER PRIMARY KEY,
+  dataa DATE NOT NULL,
+  hora INT NOT NULL,
+  tipo_pagamento CHAR(2),
+  idtb_cliente INTEGER NOT NULL,
+  idtb_espaco INTEGER NOT NULL,
+  CONSTRAINT idtb_cliente FOREIGN KEY(idtb_cliente) REFERENCES tb_clientes(cod_cliente),
+  CONSTRAINT idtb_espaco FOREIGN KEY(idtb_espaco) REFERENCES tb_espacos(cod_espaco)
+);
+INSERT INTO tb_cidades (cod_cidade, nome_cidade, estado_cidade) VALUES
+(1, 'Cascavel', 'PR');
+INSERT INTO tb_clientes (cod_cliente,nome_cliente, fone_cliente, senha, cpf_cnpj, email_cliente, idtb_cidade) VALUES
+(1,'Cliente',45999999999,'lalala',454545454,'cliente@email.com',1),
+(2,'Cliente',45999999999,'lalala',454545454,'cliente@email.com',1),
+(3,'Cliente',45999999999,'lalala',454545454,'cliente@email.com',1),
+(4,'Cliente',45999999999,'lalala',454545454,'cliente@email.com',1),
+(5,'Cliente',45999999999,'lalala',454545454,'cliente@email.com',1),
+(6,'Cliente',45999999999,'lalala',454545454,'cliente@email.com',1),
+(7,'Cliente',45999999999,'lalala',454545454,'cliente@email.com',1),
+(8,'Cliente',45999999999,'lalala',454545454,'cliente@email.com',1),
+(9,'Cliente',45999999999,'lalala',454545454,'cliente@email.com',1),
+(10,'Cliente',45999999999,'lalala',454545454,'cliente@email.com',1);
